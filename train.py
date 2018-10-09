@@ -1,14 +1,9 @@
 from unityagents import UnityEnvironment
 import numpy as np
-
-
-
 import random
 import time  
 import copy
 from collections import namedtuple, deque
-
-
 import torch
 import torch.nn.functional as F
 import torch.optim as optim
@@ -42,14 +37,15 @@ print('The state for the first agent looks like:', states[0])
 
 from agent import Agent
 
-agent = Agent(state_size=state_size, action_size=action_size, random_seed=4)
+agent = Agent(state_size=state_size, action_size=action_size, random_seed=0)
 
 
 def ddpg(n_episodes=2000, max_steps=1000):
-    scores_hundred = deque(maxlen=100)
+    scores_mean = deque(maxlen=100)
     scores = []
+    best_score = 0
+    best_average_score = 0
     for i_episode in range(1, n_episodes+1):
-        highest_score = 0
         average_score = 0
         env_info = env.reset(train_mode=True)[brain_name]
         states = env_info.vector_observations            
@@ -68,19 +64,18 @@ def ddpg(n_episodes=2000, max_steps=1000):
             if np.any(dones):
                 break
         score = np.mean(scores_agents)
-        scores_hundred.append(score)
-        average_score = np.mean(scores_hundred)
+        scores_mean.append(score)
+        average_score = np.mean(scores_mean)
         scores.append(score)
-        if score > highest_score:
-            highest_score = score        
-        print("Episode: ", i_episode)
-        print("Min Score: {:.2f}  Max Score: {:.2f}".format(scores_agents.min(), scores_agents.max()))
-        print("Score: {:.2f}".format(score))
-        print("AvgScore: {:.2f}".format(average_score))
-        print("Episode: {:2f} Score: {:.2f} Highest Score: {:.2f} Average Score: {:.2f}".format(i_episode, score, highest_score, average_score))
+        if score > best_score:
+            best_score = score
+        if average_score > best_average_score:
+            best_average_score = average_score
+        print("Episode:{}, Low Score:{:.2f}, High Score:{:.2f}, Score:{:.2f}, Best Score:{:.2f}, Average Score:{:.2f}, Best Avg Score:{:.2f}".format(i_episode, scores_agents.min(), scores_agents.max(), score, best_score, average_score, best_average_score))
         if average_score > 30:
             torch.save(agent.actor_local.state_dict(), 'checkpoint_actor.pth')
-            torch.save(agent.critic_local.state_dict(), 'checkpoint_critic.pth')            
+            torch.save(agent.critic_local.state_dict(), 'checkpoint_critic.pth')
+            print("Average score of 30 achieved")            
             break
     return scores
 
