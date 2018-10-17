@@ -29,7 +29,7 @@ The environment is considered solved, when the average (over 100 episodes) of th
 - Install requirements:
     ```bash
     clone git https://github.com/adaptationio/DDPG-Continuous-Control.git
-    cd dqn-navigation
+    cd DDPG-Continuous-Control
 	pip install .
 	```
 
@@ -38,7 +38,7 @@ The environment is considered solved, when the average (over 100 episodes) of th
     - Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher.app.zip)
     - Windows (32-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher_Windows_x86.zip)
     - Windows (64-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher_Windows_x86_64.zip)
-    - Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Linux_NoVis.zip) NO Visuel version
+    - Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Linux_NoVis.zip) NO Visual version
 
 
 ## Instructions
